@@ -61,13 +61,13 @@ const Index = () => {
     <Wrapper>
       <Box>
         <Box>
-          <h1>Welcome to thanksfreelance</h1>
+          <h1>Welcome to Continuity Pass</h1>
         </Box>
         <Form>
           <Icon priority src={GithubIcon} alt="github-icon" />
-          <p>Crea tu cuenta con Github</p>
+          <p>Create your github account</p>
           <Box mt={1} sx={{ textAlign: "center" }}>
-            <Button onClick={loginHandler}>Continuar</Button>
+            <Button onClick={loginHandler}>Create</Button>
           </Box>
         </Form>
       </Box>
