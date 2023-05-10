@@ -12,6 +12,7 @@ import { getRandomArbitrary } from "@/utils/generateUuid";
 import { CREATE_PROYECT } from "@/constants/proyect";
 import { createProject } from "@/api/project";
 import { USER } from "@/constants/user";
+import { useUserStore } from "@/store";
 
 const FooterButtons = styled(Stack)`
   position: sticky;
@@ -40,15 +41,14 @@ interface modalNewProject {
   open: boolean;
   handleClose: any;
   projects: any;
-  setProjects: any;
 }
 
-const Index = ({
-  open,
-  handleClose,
-  projects,
-  setProjects,
-}: modalNewProject) => {
+const Index = ({ open, handleClose, projects }: modalNewProject) => {
+  // @ts-ignore
+  const user = useUserStore((state) => state.user);
+  // @ts-ignore
+  const setUserProjects = useUserStore((state) => state.setUserProjects);
+
   const {
     register,
     handleSubmit,
@@ -59,8 +59,6 @@ const Index = ({
 
   const [tab, setTab] = useState<number | null>(CREATE_PROYECT.PROYECT);
   const [loading, setLoading] = useState<boolean | null>(false);
-
-  console.log("USER.ID", USER.ID);
 
   const onSubmit = (dataForm: any) => {
     let project_id = getRandomArbitrary(2, 3000000);
@@ -73,7 +71,7 @@ const Index = ({
     };
     createProject(data, projects)
       .then((res) => {
-        setProjects(res);
+        setUserProjects({ ...user, projects: res });
         setLoading(false);
         handleClose();
       })

@@ -1,5 +1,5 @@
 import router from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import Box from "@mui/material/Box";
@@ -8,9 +8,9 @@ import Button from "@mui/material/Button";
 import Input from "@/components/Input";
 import LoadingButton from "@mui/lab/LoadingButton";
 import ModalInfoToken from "@/components/ModalInfoToken";
-import { UseUsers } from "@/core/api";
+import { Toaster, toast } from "sonner";
 import { updateToken } from "@/api/actions";
-import { USER } from "@/constants/user";
+import { useUserStore } from "@/store";
 
 const Wrapper = styled(Box)`
   background: radial-gradient(
@@ -68,6 +68,11 @@ const Main = styled(Box)`
 `;
 
 const Index = () => {
+  // @ts-ignore
+  const user = useUserStore((state) => state.user);
+  // @ts-ignore
+  const setUserToken = useUserStore((state) => state.setUserToken);
+
   const {
     register,
     handleSubmit,
@@ -80,21 +85,27 @@ const Index = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const { users, isLoading } = UseUsers();
-
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    setValue("token", user.token);
+  }, []);
 
   const onSubmit = (dataForm: any) => {
     setLoading(true);
     updateToken(dataForm?.token)
-      .then((res) => {
+      .then((token) => {
         console.log("Token Actualizado");
+        setUserToken({ ...user, token });
+        toast.success("Token updated");
         setLoading(false);
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  console.log("user profile", user);
 
   return (
     <Box>
@@ -106,7 +117,7 @@ const Index = () => {
           <Header>
             <ContentAvatar>
               <Avatar
-                src={users?.avatar_url}
+                src={user?.photoURL}
                 sx={{
                   width: 90,
                   height: 90,
@@ -115,8 +126,8 @@ const Index = () => {
                 }}
               />
             </ContentAvatar>
-            <h2>{users?.name}</h2>
-            <small>@{users?.login}</small>
+            <h2>{user?.displayName}</h2>
+            <small>@{user?.userName}</small>
           </Header>
           <Main>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -128,7 +139,7 @@ const Index = () => {
                   errors={errors}
                   keyName="token"
                   placeholder="Paste token"
-                  value={watch("token") || USER?.TOKEN}
+                  value={watch("token")}
                 />
                 <small role="button" onClick={handleOpen}>
                   How do I get it?
@@ -149,6 +160,7 @@ const Index = () => {
           </Main>
         </Content>
         <ModalInfoToken open={open} handleClose={handleClose} />
+        <Toaster />
       </Wrapper>
     </Box>
   );

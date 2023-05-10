@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import { login } from "@/api/actions";
 import { USER } from "@/constants/user";
 import { useEffect } from "react";
+import { useUserStore } from "@/store";
 
 const Wrapper = styled(Box)`
   display: flex;
@@ -30,6 +31,8 @@ const Icon = styled(Image)`
 `;
 
 const Form = styled(Box)`
+  width: 500px;
+  margin: 50px auto 0;
   padding: 40px 20px;
   margin-top: 50px;
   border-radius: 6px;
@@ -40,6 +43,12 @@ const Form = styled(Box)`
   & p {
     text-align: center;
   }
+  & small {
+    display: block;
+    width: 80%;
+    margin: 10px auto 30px;
+    text-align: center;
+  }
 `;
 
 const Index = () => {
@@ -47,9 +56,13 @@ const Index = () => {
     USER.ID !== "null" && router.push("/home");
   }, []);
 
+  // @ts-ignore
+  const setUserInfo = useUserStore((state) => state.setUserInfo);
+
   const loginHandler = () => {
     login()
-      .then(() => {
+      .then((res) => {
+        setUserInfo(res);
         router.push("/home");
       })
       .catch((error) => {
@@ -61,13 +74,17 @@ const Index = () => {
     <Wrapper>
       <Box>
         <Box>
-          <h1>Welcome to Continuity Pass</h1>
+          <h1>Welcome to Continuity Signature</h1>
         </Box>
         <Form>
           <Icon priority src={GithubIcon} alt="github-icon" />
-          <p>Create your github account</p>
+          <p>Create your account with Github</p>
+          <small>
+            I agree that Continuity Signature can have read-only access to my
+            public and private repositories.
+          </small>
           <Box mt={1} sx={{ textAlign: "center" }}>
-            <Button onClick={loginHandler}>Create</Button>
+            <Button onClick={loginHandler}>Go!</Button>
           </Box>
         </Form>
       </Box>

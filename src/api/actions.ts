@@ -12,13 +12,16 @@ export const login = () => {
   return new Promise((resolve, reject) => {
     signInWithPopup(auth, provider)
       .then(({ user }) => {
-        console.log("user", user);
+        console.log("user github", user);
         const userLogged = {
           created_at: new window.Date(),
           uuid,
           displayName: user.displayName,
           email: user.email,
           photoURL: user.photoURL,
+          token: "",
+          // @ts-ignore
+          userName: user?.reloadUserInfo?.screenName,
         };
         db.collection("users")
           .doc(`${uuid}`)
@@ -34,6 +37,36 @@ export const login = () => {
       })
       .catch((error) => {
         console.log(error);
+      });
+  });
+};
+
+export const getUserInfo = (uuid: any) => {
+  return new Promise((resolve, reject) => {
+    db.collection("users")
+      .doc(uuid)
+      .get()
+      .then((response: any) => {
+        resolve(response?.data());
+      })
+      .catch((error: any) => {
+        console.log(error);
+        reject(error);
+      });
+  });
+};
+
+export const getToken = () => {
+  return new Promise((resolve, reject) => {
+    db.collection("users")
+      .doc(USER.ID)
+      .get()
+      .then((response: any) => {
+        resolve(response?.data()?.token);
+      })
+      .catch((error: any) => {
+        console.log(error);
+        reject(error);
       });
   });
 };

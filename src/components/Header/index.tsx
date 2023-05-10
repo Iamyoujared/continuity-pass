@@ -5,8 +5,8 @@ import Stack from "@mui/material/Stack";
 import Image from "next/image";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
-import LogoIcon from "@/assets/images/logo-continuity-assign.svg";
-import { UseUsers } from "@/core/api";
+import LogoIcon from "@/assets/images/logo-continuity-signature.svg";
+import { useUserStore } from "@/store";
 
 const Wrapper = styled(Box)`
   background-color: transparent;
@@ -31,7 +31,8 @@ const Badge = styled(Box)`
 `;
 
 const Index = () => {
-  const { users, isLoading } = UseUsers();
+  // @ts-ignore
+  const user = useUserStore((state) => state.user);
 
   return (
     <Wrapper>
@@ -45,7 +46,7 @@ const Index = () => {
         <Box>
           <Image width={220} priority src={LogoIcon} alt="Continuity" />
         </Box>
-        <Badge onClick={() => router.push(`/profile/${users.id}`)}>
+        <Badge onClick={() => router.push(`/profile/${user?.uuid}`)}>
           <Stack
             direction="row"
             spacing={1}
@@ -53,10 +54,10 @@ const Index = () => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <DisplayName>{users?.name}</DisplayName>
+            <DisplayName>{user?.displayName}</DisplayName>
             <Avatar
               alt="ncieone"
-              src={users?.avatar_url}
+              src={user?.photoURL}
               sx={{ width: 37, height: 37, bgcolor: "#AA77FF", color: "#fff" }}
             />
           </Stack>

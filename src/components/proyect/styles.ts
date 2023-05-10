@@ -15,3 +15,17 @@ export const Field = styled(Box)`
     font-family: "Poppins";
   }
 `;
+
+export const Step = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 13px;
+  height: 13px;
+  background-color: #e4e4e4;
+  padding: 10px;
+  border-radius: 50px;
+  & p {
+    font-size: 13px;
+  }
+`;

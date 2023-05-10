@@ -1,9 +1,6 @@
 import axios from "axios";
 import useSWR from "swr";
-
-const token: any =
-  // @ts-ignore
-  typeof window !== "undefined" && localStorage?.getItem("token");
+import { getToken } from "@/api/actions";
 
 // @ts-ignore
 const fetcher = (...args) =>
@@ -62,12 +59,13 @@ export function UseContentRepo() {
   };
 }
 
-const fetcherAxios = (url: string) =>
-  axios
-    .get(url, { headers: { Authorization: "Bearer " + token } })
-    .then((res) => res.data);
+export const UseRepos = (token: string) => {
+  console.log("token", token);
+  const fetcherAxios = (url: string) =>
+    axios
+      .get(url, { headers: { Authorization: "Bearer " + token } })
+      .then((res) => res.data);
 
-export function UseRepos() {
   const { data, error, isLoading } = useSWR(REPOS_URL, fetcherAxios, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
@@ -79,4 +77,4 @@ export function UseRepos() {
     isLoading,
     isError: error,
   };
-}
+};

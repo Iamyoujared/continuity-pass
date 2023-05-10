@@ -8,7 +8,7 @@ import Input from "@/components/Input";
 import Image from "next/image";
 import ModalSignDocument from "@/components/ModalSignDocument";
 import FileIcon from "@/assets/icons/note.svg";
-import { Title, Field } from "../styles";
+import { Title, Field, Step } from "../styles";
 
 const Icon = styled(Image)`
   width: 22px;
@@ -55,7 +55,12 @@ const Index = ({ watch, register, errors, setValue }: createProyectProps) => {
 
   return (
     <Box>
-      <Title>Assign Rights</Title>
+      <Stack direction="row" spacing={1} alignItems="center">
+        <Step>
+          <p>3</p>
+        </Step>
+        <Title>Assign Rights</Title>
+      </Stack>
       <Box>
         <Field>
           <label>Company name</label>

@@ -24,7 +24,6 @@ export const getProjects = () => {
       .doc(USER.ID)
       .get()
       .then((response: any) => {
-        console.log("Sheeesh", response);
         resolve(response?.data()?.projects);
       })
       .catch((error: any) => {

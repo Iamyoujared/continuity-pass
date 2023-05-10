@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import Input from "@/components/Input";
-import { Title, Field } from "../styles";
+import { Title, Field, Step } from "../styles";
 
 interface createProyectProps {
   register: any;
@@ -10,7 +11,12 @@ interface createProyectProps {
 const Index = ({ register, errors }: createProyectProps) => {
   return (
     <Box>
-      <Title>Project</Title>
+      <Stack direction="row" spacing={1} alignItems="center">
+        <Step>
+          <p>1</p>
+        </Step>
+        <Title>Project</Title>
+      </Stack>
       <Box>
         <Field>
           <label>Name</label>

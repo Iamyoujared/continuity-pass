@@ -1,3 +1,5 @@
+import styled from "styled-components";
+import Box from "@mui/material/Box";
 import { createGlobalStyle } from "styled-components";
 export default createGlobalStyle`
 
@@ -47,4 +49,14 @@ export default createGlobalStyle`
         box-shadow: none !important;
         border: none !important;
     }
+`;
+
+export const Error = styled(Box)`
+  background-color: #b0475921;
+  padding: 15px;
+  border-radius: 7px;
+  border: 1px solid #b04759;
+  & p {
+    font-size: 12px;
+  }
 `;

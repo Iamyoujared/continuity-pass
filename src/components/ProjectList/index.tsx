@@ -9,6 +9,7 @@ import ModaNewProject from "@/components/ModalNewProject";
 import ProjectCard from "./ProjectCard";
 import { getProjects } from "@/api/project";
 import { type Project } from "@/types";
+import { useUserStore } from "@/store";
 
 const Wrapper = styled(Box)`
   margin: 20px 10px 0;
@@ -21,18 +22,21 @@ const Title = styled(Typography)`
 `;
 
 const Index = () => {
+  // @ts-ignore
+  const projects = useUserStore((state) => state.user.projects);
+
   // Create project - Modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [projects, setProjects] = useState<Array<Project>>([]);
+  // const [projects, setProjects] = useState<Array<Project>>([]);
 
-  useEffect(() => {
-    getProjects().then((projectsList: any) => {
-      setProjects(projectsList);
-    });
-  }, []);
+  // useEffect(() => {
+  //   getProjects().then((projectsList: any) => {
+  //     setProjects(projectsList);
+  //   });
+  // }, []);
 
   return (
     <Wrapper>
@@ -54,7 +58,6 @@ const Index = () => {
             open={open}
             handleClose={handleClose}
             projects={projects}
-            setProjects={setProjects}
           />
         </Box>
       </Stack>
@@ -62,7 +65,7 @@ const Index = () => {
         <Box>{!projects && <p>No projects</p>}</Box>
         <Grid container alignItems="center" spacing={2}>
           {projects &&
-            projects.map((project) => (
+            projects.map((project: Project) => (
               <Grid item xs={4}>
                 {/* @ts-ignore */}
                 <ProjectCard project={project} />
