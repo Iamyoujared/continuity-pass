@@ -3,8 +3,11 @@ export default createGlobalStyle`
 
     @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
-    body {
-    margin: 0;
+    body,
+    h1,
+    h2,
+    h3 {
+        margin: 0;
     }
 
     h1,
@@ -13,7 +16,7 @@ export default createGlobalStyle`
     h4,
     p,
     a,
-    button, li, a, span {
+    button, li, a, span, small {
     margin: 0;
     font-family: "Poppins";
     }

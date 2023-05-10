@@ -1,89 +1,76 @@
+import router from "next/router";
 import styled from "styled-components";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Input from "@/components/Input";
-import LoadingButton from "@mui/lab/LoadingButton";
-import Logo from "@/components/Logo";
+import Image from "next/image";
+import GithubIcon from "@/assets/icons/github.svg";
+import Button from "@mui/material/Button";
+import { login } from "@/api/actions";
+import { USER } from "@/constants/user";
+import { useEffect } from "react";
 
 const Wrapper = styled(Box)`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  background: radial-gradient(
+    circle,
+    rgba(148, 66, 226, 0.25) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  height: calc(100vh - 0px);
 `;
 
-const Content = styled(Box)`
-  width: 25%;
-  border: 1px solid #cbcbcb;
-  border-radius: 10px;
-  padding: 40px;
+const Icon = styled(Image)`
+  color: transparent;
+  margin: 0 auto 20px;
+  display: block;
+  background: #000;
+  padding: 10px;
+  border-radius: 5px;
+`;
+
+const Form = styled(Box)`
+  padding: 40px 20px;
+  margin-top: 50px;
+  border-radius: 6px;
+  backdrop-filter: blur(135px);
+  background-color: rgba(247, 247, 242, 0.24);
+  box-shadow: 0 16px 32px -2px rgba(0, 0, 0, 0.1),
+    0 8px 16px -2px rgba(0, 0, 0, 0);
+  & p {
+    text-align: center;
+  }
 `;
 
 const Index = () => {
-  const router = useRouter();
+  useEffect(() => {
+    USER.ID !== "null" && router.push("/home");
+  }, []);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const [loading, setLoading] = useState(false);
-
-  const onSubmit = (dataForm: any) => {
-    console.log(dataForm);
-    router.push("/home");
+  const loginHandler = () => {
+    login()
+      .then(() => {
+        router.push("/home");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
     <Wrapper>
-      <Content>
+      <Box>
         <Box>
-          <Box mt={2} mb={6} textAlign="center">
-            <Logo />
-          </Box>
-          <Box>
-            <Box>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <Grid container spacing={5}>
-                  <Grid item xs={12}>
-                    <Input
-                      type="email"
-                      register={register}
-                      errors={errors}
-                      keyName="email"
-                      placeholder="Correo electronico"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Input
-                      type="password"
-                      register={register}
-                      errors={errors}
-                      keyName="password"
-                      placeholder="Contraseña"
-                    />
-                  </Grid>
-                </Grid>
-                <LoadingButton
-                  sx={{ marginTop: "30px", color: "#fff" }}
-                  size="medium"
-                  color="primary"
-                  type="submit"
-                  loading={loading}
-                  variant="contained"
-                  fullWidth={true}
-                >
-                  <span>Entrar</span>
-                </LoadingButton>
-              </form>
-            </Box>
-          </Box>
+          <h1>Welcome to thanksfreelance</h1>
         </Box>
-      </Content>
+        <Form>
+          <Icon priority src={GithubIcon} alt="github-icon" />
+          <p>Crea tu cuenta con Github</p>
+          <Box mt={1} sx={{ textAlign: "center" }}>
+            <Button onClick={loginHandler}>Continuar</Button>
+          </Box>
+        </Form>
+      </Box>
     </Wrapper>
   );
 };

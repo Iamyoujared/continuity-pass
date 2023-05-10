@@ -1,7 +1,6 @@
 export const AppConfig = {
-  site_name: "Petbrait",
-  title: "Petbrait is the better",
-  description: "Encuentra todo lo que quieras sobre mascota",
+  site_name: "Continuity Assign",
+  title: "Continuity is the better",
+  description: "The best tool for freelancers",
   locale: "es",
-  apiUrl: process.env.NEXT_PUBLIC_API_URL,
 };
