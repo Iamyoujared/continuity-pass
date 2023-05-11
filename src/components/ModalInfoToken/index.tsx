@@ -2,11 +2,12 @@ import styled from "styled-components";
 import Box from "@mui/material/Box";
 import Image from "next/image";
 import Modal from "@mui/material/Modal";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 import ImageStep1 from "@/assets/images/step1.png";
 import ImageStep2 from "@/assets/images/step2.png";
 import ImageStep3 from "@/assets/images/step3.png";
+import ImageStep4 from "@/assets/images/step4.png";
+import ImageStep5 from "@/assets/images/step5.png";
+import ImageStep6 from "@/assets/images/step6.png";
 
 const Step = styled(Box)`
   margin: 10px 0;
@@ -16,7 +17,9 @@ const Step = styled(Box)`
 const StepTitle = styled.h3`
   margin-bottom: 5px;
   font-weight: 500;
+  font-size: 17px;
 `;
+
 const StepDescription = styled.p`
   font-size: 13px !important;
 `;
@@ -25,16 +28,16 @@ const StepImageVertical = styled(Image)`
   display: block;
   margin: 15px 0;
   width: auto;
-  height: 300px;
+  max-width: -webkit-fill-available;
+  height: auto;
+  max-height: 300px;
   object-fit: contain;
 `;
 
-const StepImageHorizontal = styled(Image)`
-  display: block;
-  margin: 15px 0;
-  width: 100%;
-  height: 150;
-  object-fit: contain;
+const Title = styled.h2`
+  margin-bottom: 30px;
+  font-weight: 500;
+  font-size: 22px;
 `;
 
 const style = {
@@ -76,6 +79,22 @@ const Index = ({ open, handleClose }: ModalInfoToken) => {
         "First select the 'Fine-grained tokens' option and then click on the 'Generate new token' button.",
       image: ImageStep3,
     },
+    {
+      step: "4",
+      description: "Select a name for the token",
+      image: ImageStep4,
+    },
+    {
+      step: "5",
+      description:
+        "Select the 'Only select repositories' option and select the private repositories containing the project code.",
+      image: ImageStep5,
+    },
+    {
+      step: "6",
+      description: "Clic on 'Generate token' button.",
+      image: ImageStep6,
+    },
   ];
 
   return (
@@ -86,11 +105,7 @@ const Index = ({ open, handleClose }: ModalInfoToken) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Button>Generate Token</Button>
-          <Button>Repository configurations</Button>
-        </Stack>
-        {/* <Title>NIceone</Title> */}
+        <Title>Generate Personal access token</Title>
         {steps.map((step) => (
           <Step>
             <StepTitle>Step {step.step}</StepTitle>
